@@ -1,6 +1,40 @@
 {
   "app": { "name": "Portal Sublimasi" },
-  "nav": { "queue": "Giliran Saya", "jobs": "Kerja", "quotes": "Sebut Harga", "customers": "Pelanggan", "settings": "Tetapan", "logout": "Log keluar" },
+  "workflow": {
+    "moveTo": "Siap → ", "addPhotoNote": "Tambah nota atau gambar", "note": "Nota (pilihan)", "reason": "Sebab (wajib)",
+    "reasonHint": "Nyatakan sebab. Ia disimpan dalam garis masa kerja.", "waiveHint": "Tiada deposit direkodkan. Pengecualian direkod dengan nama dan sebab anda.",
+    "overrideHint": "Baki belum dijelaskan. Melepaskan barang juga direkod dengan nama dan sebab anda.",
+    "waiveDeposit": "kecualikan deposit", "overridePayment": "lepaskan tanpa bayaran penuh", "confirm": "Sahkan",
+    "noActions": "Tiada tindakan untuk anda pada kerja ini sekarang.", "timeline": "Garis masa", "noEvents": "Belum ada sejarah.",
+    "customer": "Pelanggan", "system": "Sistem", "reasonLabel": "Sebab", "reasonPrompt": "Sebab (wajib):",
+    "errors": {
+      "NOT_ALLOWED": "Perpindahan itu tidak dibenarkan dari peringkat ini.",
+      "ROLE_FORBIDDEN": "Peranan anda tidak boleh melakukan ini.",
+      "TERMINAL": "Kerja ini sudah ditutup.",
+      "DEPOSIT_REQUIRED": "Rekod deposit dahulu (atau admin boleh mengecualikannya dengan sebab).",
+      "REASON_REQUIRED": "Sebab diperlukan.",
+      "DESIGN_NOT_APPROVED": "Menunggu pelanggan meluluskan reka bentuk.",
+      "NAME_LIST_NOT_CONFIRMED": "Menunggu senarai nama dan saiz disahkan.",
+      "QC_SHORTFALL": "Masih ada helai gagal QC. Selesaikan kerja semula dahulu.",
+      "PAYMENT_LOCK": "Baki belum dijelaskan sepenuhnya. Barang tidak boleh dilepaskan.",
+      "OVERRIDE_FORBIDDEN": "Hanya Pemilik boleh melepaskan barang tanpa bayaran penuh.",
+      "RESUME_TARGET_REQUIRED": "Sambung semula kerja ke peringkat asalnya.",
+      "NOT_FOUND": "Kerja tidak dijumpai.",
+      "CONFLICT": "Orang lain baru sahaja memindahkan kerja ini. Muat semula dan cuba lagi.",
+      "FAILED": "Ada masalah. Sila cuba lagi."
+    }
+  },
+  "board": {
+    "title": "Papan", "search": "Cari pelanggan atau no. kerja", "allSections": "Semua bahagian", "anyPriority": "Semua keutamaan",
+    "rush": "Segera", "normal": "Biasa", "anyDue": "Mana-mana tarikh", "overdue": "Lewat", "thisWeek": "Siap minggu ini", "filter": "Tapis",
+    "dragHint": "Seret kad ke lajur lain untuk memindahkan kerja. Peraturan sama seperti di halaman kerja.", "emptyColumn": "Tiada kerja"
+  },
+  "sections": { "sales": "Jualan", "design": "Reka bentuk", "template": "Templat", "printing": "Cetakan & Press", "sewing": "Potong & Jahit", "qc": "QC", "dispatch": "Penghantaran" },
+  "notifications": {
+    "title": "Pemberitahuan", "empty": "Tiada pemberitahuan.", "markAllRead": "Tandakan semua dibaca",
+    "codes": { "queue_landed": "Kerja {job} kini dalam giliran anda." }
+  },
+  "nav": { "board": "Papan", "queue": "Giliran Saya", "jobs": "Kerja", "quotes": "Sebut Harga", "customers": "Pelanggan", "settings": "Tetapan", "logout": "Log keluar" },
   "customers": {
     "title": "Pelanggan", "new": "Pelanggan baharu", "empty": "Tiada pelanggan dijumpai.", "searchPlaceholder": "Cari nama, pasukan atau telefon",
     "name": "Nama kenalan", "organisation": "Pasukan / organisasi", "type": "Jenis pelanggan", "phone": "Telefon WhatsApp",

@@ -1,6 +1,40 @@
 {
   "app": { "name": "Sublimation Portal" },
-  "nav": { "queue": "My Queue", "jobs": "Jobs", "quotes": "Quotes", "customers": "Customers", "settings": "Settings", "logout": "Log out" },
+  "workflow": {
+    "moveTo": "Done → ", "addPhotoNote": "Add note or photo", "note": "Note (optional)", "reason": "Reason (required)",
+    "reasonHint": "Say why. This is saved on the job timeline.", "waiveHint": "No deposit recorded. Waiving it is logged with your name and reason.",
+    "overrideHint": "Balance is unpaid. Releasing goods anyway is logged with your name and reason.",
+    "waiveDeposit": "waive deposit", "overridePayment": "release without full payment", "confirm": "Confirm",
+    "noActions": "Nothing for you to do on this job right now.", "timeline": "Timeline", "noEvents": "No history yet.",
+    "customer": "Customer", "system": "System", "reasonLabel": "Reason", "reasonPrompt": "Reason (required):",
+    "errors": {
+      "NOT_ALLOWED": "That move is not allowed from this stage.",
+      "ROLE_FORBIDDEN": "Your role cannot do this.",
+      "TERMINAL": "This job is already closed.",
+      "DEPOSIT_REQUIRED": "Record the deposit first (or an admin can waive it with a reason).",
+      "REASON_REQUIRED": "A reason is required.",
+      "DESIGN_NOT_APPROVED": "Waiting for the customer to approve the design.",
+      "NAME_LIST_NOT_CONFIRMED": "Waiting for the name and size list to be confirmed.",
+      "QC_SHORTFALL": "Some pieces still failed QC. Resolve the rework first.",
+      "PAYMENT_LOCK": "Balance not fully paid. Goods cannot be released.",
+      "OVERRIDE_FORBIDDEN": "Only the Owner can release goods without full payment.",
+      "RESUME_TARGET_REQUIRED": "Resume the job to the stage it was on.",
+      "NOT_FOUND": "Job not found.",
+      "CONFLICT": "Someone else just moved this job. Refresh and try again.",
+      "FAILED": "Something went wrong. Please try again."
+    }
+  },
+  "board": {
+    "title": "Board", "search": "Search customer or job no.", "allSections": "All sections", "anyPriority": "Any priority",
+    "rush": "Rush", "normal": "Normal", "anyDue": "Any date", "overdue": "Overdue", "thisWeek": "Due this week", "filter": "Filter",
+    "dragHint": "Drag a card to another column to move the job. The same rules apply as on the job page.", "emptyColumn": "No jobs"
+  },
+  "sections": { "sales": "Sales", "design": "Design", "template": "Template", "printing": "Printing & Press", "sewing": "Cutting & Sewing", "qc": "QC", "dispatch": "Dispatch" },
+  "notifications": {
+    "title": "Notifications", "empty": "No notifications.", "markAllRead": "Mark all read",
+    "codes": { "queue_landed": "Job {job} is now in your queue." }
+  },
+  "nav": { "board": "Board", "queue": "My Queue", "jobs": "Jobs", "quotes": "Quotes", "customers": "Customers", "settings": "Settings", "logout": "Log out" },
   "customers": {
     "title": "Customers", "new": "New customer", "empty": "No customers found.", "searchPlaceholder": "Search name, team or phone",
     "name": "Contact name", "organisation": "Team / organisation", "type": "Customer type", "phone": "WhatsApp phone",

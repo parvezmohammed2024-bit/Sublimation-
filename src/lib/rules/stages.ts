@@ -45,7 +45,7 @@ export const DEFAULT_STAGES: StageDef[] = [
   { key: "REVISION_REQUESTED", position: null, section: "design", labelEn: "Revision requested", labelMs: "Semakan diminta", customerLabelEn: "Design", customerLabelMs: "Reka bentuk" },
   { key: "DESIGN_APPROVED", position: 5, section: "design", labelEn: "Design approved", labelMs: "Reka bentuk diluluskan", customerLabelEn: "Design approved", customerLabelMs: "Reka bentuk diluluskan" },
   { key: "AWAITING_NAME_LIST", position: 6, section: "sales", labelEn: "Awaiting name list", labelMs: "Menunggu senarai nama", customerLabelEn: "Name list", customerLabelMs: "Senarai nama" },
-  { key: "NAME_LIST_CONFIRMED", position: 7, section: "sales", labelEn: "Name list confirmed", labelMs: "Senarai nama disahkan", customerLabelEn: "Name list", customerLabelMs: "Senarai nama" },
+  { key: "NAME_LIST_CONFIRMED", position: 7, section: "template", labelEn: "Name list confirmed", labelMs: "Senarai nama disahkan", customerLabelEn: "Name list", customerLabelMs: "Senarai nama" },
   { key: "TEMPLATE", position: 8, section: "template", labelEn: "Template / pattern", labelMs: "Templat / corak", customerLabelEn: "Preparing production", customerLabelMs: "Menyediakan pengeluaran" },
   { key: "PRINTING", position: 9, section: "printing", labelEn: "Printing", labelMs: "Mencetak", customerLabelEn: "Printing", customerLabelMs: "Pencetakan" },
   { key: "HEAT_PRESS", position: 10, section: "printing", labelEn: "Heat press", labelMs: "Heat press", customerLabelEn: "Printing", customerLabelMs: "Pencetakan" },

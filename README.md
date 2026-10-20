@@ -2,10 +2,11 @@
 
 Job tracking portal for a Malaysian dye-sublimation print shop: order → design → template → printing → cutting & sewing → QC → collection, with payment status controlling release of goods. Staff portal plus a no-login customer tracking page. English and Bahasa Malaysia.
 
-**Status: Phase 2 of 9.**
+**Status: Phase 3 of 9.**
 - Phase 1 (done): business rules + tests, schema + RLS, auth, role-aware layout, EN/BM toggle, My Queue, Settings.
 - Phase 2 (done): customers (Malaysian phone normalisation), quotations with line items / add-ons / rush fee / configurable tax / quantity price tiers, quotation → job sheet with `SB-YYMM-0001` numbering, attachments, A4 job sheet PDF with QR (`/api/jobs/{id}/pdf`).
-- Next: Phase 3, the workflow engine (stage transitions with guards, kanban, QR scan screen).
+- Phase 3 (done): workflow engine. Every stage change goes through one server path (`src/lib/workflow/perform.ts` -> rules in `src/lib/rules/workflow.ts` -> DB function `apply_transition`), with one-tap stage buttons, hold/cancel/waiver/override reasons, photo + note, job timeline, My Queue sorted by urgency, kanban board with filters and drag-to-move, live updates, in-app notifications.
+- Next: Phase 4, design and approval (mockup versions, customer approve / revise, design lock).
 
 Stack: Next.js (App Router) · TypeScript · Tailwind · Supabase (Postgres, Auth, Storage, Realtime) · next-intl · Zod · Vercel.
 
@@ -34,7 +35,8 @@ In the Supabase dashboard open **SQL Editor** and run, in order, the full conten
 1. `supabase/migrations/0001_schema.sql`
 2. `supabase/migrations/0002_rls.sql`
 3. `supabase/migrations/0003_quotes_jobs.sql`
-4. `supabase/seed.sql` (demo shop, stages, fabrics, garment types, 4 customers, 10 jobs)
+4. `supabase/migrations/0004_workflow.sql`
+5. `supabase/seed.sql` (demo shop, stages, fabrics, garment types, 4 customers, 10 jobs)
 
 (Or with the Supabase CLI: `supabase link` then `supabase db push`.)
 
@@ -63,5 +65,6 @@ Other roles: `admin`, `designer`, `template`, `printing`, `cutting_sewing`, `qc`
 - **Business rules live in one place:** `src/lib/rules/` (`workflow.ts` state machine and guards, `payments.ts` payment status and green/amber/red release logic). Pure functions with unit tests; UI and server actions call them and never re-implement them.
 - **Money** is integer sen in code and `numeric(12,2)` in Postgres. Payment status is computed from verified payments only, never set by hand. `DEPOSIT_PAID` = paid ≥ deposit and < total; `PARTIALLY_PAID` = some money in but under the deposit.
 - **Stages are data** (`stages` table), so a shop can disable e.g. cutting if merged with sewing. The default flow is seeded.
+- **Stage changes are server-only.** Users cannot update `stage_key` or the guard flags (`design_approved`, `name_list_confirmed`, `deposit_waived`) or write timeline events directly; migration 0004 revokes that. The app checks the rules, then calls `apply_transition` with the service-role key, so `SUPABASE_SERVICE_ROLE_KEY` is required on the server.
 - **RLS on every table.** Production roles see only jobs in their section; payments are admin (and dispatch read-only). Customers never touch the database directly: the public tracking page runs server-side with the service-role key, looked up by an unguessable token.
 - Dates use Asia/Kuala_Lumpur, currency MYR, phones in E.164.

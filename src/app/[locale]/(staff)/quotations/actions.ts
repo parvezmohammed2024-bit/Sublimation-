@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "@/i18n/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { addDaysISO, quoteTotals } from "@/lib/rules/pricing";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createServiceClient } from "@/lib/supabase/server";
 import { rmToSen, todayKL } from "@/lib/utils";
 
 const uuidOrEmpty = z.union([z.literal(""), z.string().uuid()]).transform((v) => v || null);
@@ -179,7 +179,8 @@ export async function createJobFromQuote(formData: FormData) {
       notes: i.notes,
     })),
   );
-  await supabase.from("job_stage_events").insert({
+  // The timeline is append-only and written only by the server (users cannot insert events).
+  await createServiceClient().from("job_stage_events").insert({
     shop_id: profile.shop_id,
     job_id: job!.id,
     from_stage: null,

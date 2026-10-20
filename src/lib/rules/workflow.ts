@@ -52,6 +52,8 @@ const ADMIN_ONLY_TARGETS = new Set([
   "QUOTATION_SENT", "CONFIRMED", "AWAITING_NAME_LIST", "NAME_LIST_CONFIRMED",
   "ON_HOLD", "CANCELLED", "QUOTATION_DRAFT",
 ]);
+/** Design sign-off belongs to the customer (or an admin acting for them), never to production staff. */
+const SIGNOFF_TARGETS = new Set(["DESIGN_APPROVED", "REVISION_REQUESTED"]);
 const ADMINS: Actor[] = ["super_admin", "admin"];
 
 export type TransitionErrorCode =
@@ -149,7 +151,9 @@ export function evaluateTransition(i: TransitionInput): TransitionResult {
     i.to === "DESIGNING" && (DESIGN_LOCKED_FROM as readonly string[]).includes(i.from);
 
   if (!customerEdge) {
-    if (ADMIN_ONLY_TARGETS.has(i.to) && !ADMINS.includes(i.actor)) return fail("ROLE_FORBIDDEN");
+    if ((ADMIN_ONLY_TARGETS.has(i.to) || SIGNOFF_TARGETS.has(i.to)) && !ADMINS.includes(i.actor)) {
+      return fail("ROLE_FORBIDDEN");
+    }
     if (!ADMINS.includes(i.actor) && !actorMaySection(i.actor, i.from)) return fail("ROLE_FORBIDDEN");
   }
 

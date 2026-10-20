@@ -108,6 +108,13 @@ describe("workflow guards", () => {
     expect(t({ from: "SEWING", to: "QC", actor: "customer" })).toEqual({ ok: false, code: "ROLE_FORBIDDEN" });
   });
 
+  it("a designer cannot approve or reject their own mockup", () => {
+    expect(t({ from: "MOCKUP_SENT", to: "DESIGN_APPROVED", actor: "designer" })).toEqual({ ok: false, code: "ROLE_FORBIDDEN" });
+    expect(t({ from: "MOCKUP_SENT", to: "REVISION_REQUESTED", actor: "designer" })).toEqual({ ok: false, code: "ROLE_FORBIDDEN" });
+    expect(t({ from: "DESIGNING", to: "MOCKUP_SENT", actor: "designer" }).ok).toBe(true);
+    expect(t({ from: "MOCKUP_SENT", to: "DESIGN_APPROVED", actor: "admin" }).ok).toBe(true);
+  });
+
   it("rejects illegal jumps and edits to closed jobs", () => {
     expect(t({ from: "DESIGNING", to: "PRINTING", actor: "admin" })).toEqual({ ok: false, code: "NOT_ALLOWED" });
     expect(t({ from: "COLLECTED", to: "QC", actor: "super_admin" })).toEqual({ ok: false, code: "TERMINAL" });

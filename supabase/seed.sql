@@ -20,7 +20,7 @@ insert into stages (shop_id, key, position, section, label_en, label_ms, custome
  ('00000000-0000-0000-0000-000000000001','REVISION_REQUESTED',null,'design','Revision requested','Semakan diminta','Design','Reka bentuk',false),
  ('00000000-0000-0000-0000-000000000001','DESIGN_APPROVED',5,'design','Design approved','Reka bentuk diluluskan','Design approved','Reka bentuk diluluskan',false),
  ('00000000-0000-0000-0000-000000000001','AWAITING_NAME_LIST',6,'sales','Awaiting name list','Menunggu senarai nama','Name list','Senarai nama',false),
- ('00000000-0000-0000-0000-000000000001','NAME_LIST_CONFIRMED',7,'sales','Name list confirmed','Senarai nama disahkan','Name list','Senarai nama',false),
+ ('00000000-0000-0000-0000-000000000001','NAME_LIST_CONFIRMED',7,'template','Name list confirmed','Senarai nama disahkan','Name list','Senarai nama',false),
  ('00000000-0000-0000-0000-000000000001','TEMPLATE',8,'template','Template / pattern','Templat / corak','Preparing production','Menyediakan pengeluaran',false),
  ('00000000-0000-0000-0000-000000000001','PRINTING',9,'printing','Printing','Mencetak','Printing','Pencetakan',false),
  ('00000000-0000-0000-0000-000000000001','HEAT_PRESS',10,'printing','Heat press','Heat press','Printing','Pencetakan',false),
@@ -115,3 +115,7 @@ from jobs j where j.stage_key not in ('QUOTATION_SENT');
 
 update payments set amount = amount + 300
 where job_id = (select id from jobs where job_no = 'SB-2610-0009');
+
+-- Starting history so the demo timelines are not empty.
+insert into job_stage_events (shop_id, job_id, from_stage, to_stage, note, customer_visible)
+select shop_id, id, null, stage_key, 'Demo data', false from jobs;
