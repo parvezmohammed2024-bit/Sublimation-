@@ -1,0 +1,62 @@
+{
+  "app": { "name": "Portal Sublimasi" },
+  "nav": { "queue": "Giliran Saya", "settings": "Tetapan", "logout": "Log keluar" },
+  "auth": {
+    "title": "Log masuk staf",
+    "email": "E-mel",
+    "password": "Kata laluan",
+    "submit": "Log masuk",
+    "invalid": "E-mel atau kata laluan salah.",
+    "noProfile": "Akaun anda belum mempunyai profil staf. Sila minta pemilik menambah anda."
+  },
+  "setup": {
+    "title": "Supabase belum disambungkan",
+    "body": "Salin .env.example ke .env.local dan isi URL serta kunci Supabase anda. Lihat README.md."
+  },
+  "queue": {
+    "title": "Giliran Saya",
+    "empty": "Tiada kerja dalam giliran anda sekarang.",
+    "due": "Tarikh akhir",
+    "overdue": "Lewat",
+    "rush": "Segera",
+    "qty": "helai"
+  },
+  "settings": {
+    "title": "Tetapan",
+    "shop": "Profil kedai",
+    "shopName": "Nama kedai",
+    "address": "Alamat",
+    "phone": "Telefon",
+    "bank": "Butiran bank",
+    "bankName": "Bank",
+    "accountNo": "No. akaun",
+    "accountName": "Nama akaun",
+    "jobs": "Tempahan & bayaran",
+    "prefix": "Awalan no. kerja",
+    "deposit": "Deposit lalai %",
+    "leadTime": "Tempoh siap lalai (hari bekerja)",
+    "quoteValidity": "Tempoh sah sebut harga (hari)",
+    "tax": "Cukai",
+    "taxEnabled": "Kenakan SST / cukai",
+    "taxRate": "Kadar cukai %",
+    "taxNumber": "No. pendaftaran SST",
+    "save": "Simpan",
+    "saved": "Disimpan.",
+    "onlyOwner": "Hanya Pemilik boleh mengubah tetapan.",
+    "stages": "Peringkat",
+    "fabrics": "Fabrik",
+    "garments": "Jenis pakaian",
+    "nonPoly": "Bukan poliester: sublimasi tidak akan berfungsi"
+  },
+  "role": {
+    "super_admin": "Pemilik",
+    "admin": "Admin",
+    "designer": "Pereka",
+    "template": "Templat",
+    "printing": "Cetakan & Press",
+    "cutting_sewing": "Potong & Jahit",
+    "qc": "QC",
+    "dispatch": "Penghantaran"
+  },
+  "lang": { "en": "English", "ms": "Bahasa Malaysia" }
+}

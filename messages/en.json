@@ -1,0 +1,62 @@
+{
+  "app": { "name": "Sublimation Portal" },
+  "nav": { "queue": "My Queue", "settings": "Settings", "logout": "Log out" },
+  "auth": {
+    "title": "Staff login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "invalid": "Wrong email or password.",
+    "noProfile": "Your account has no staff profile yet. Ask the owner to add you."
+  },
+  "setup": {
+    "title": "Supabase is not connected",
+    "body": "Copy .env.example to .env.local and fill in your Supabase URL and keys. See README.md."
+  },
+  "queue": {
+    "title": "My Queue",
+    "empty": "Nothing in your queue right now.",
+    "due": "Due",
+    "overdue": "Overdue",
+    "rush": "Rush",
+    "qty": "pcs"
+  },
+  "settings": {
+    "title": "Settings",
+    "shop": "Shop profile",
+    "shopName": "Shop name",
+    "address": "Address",
+    "phone": "Phone",
+    "bank": "Bank details",
+    "bankName": "Bank",
+    "accountNo": "Account number",
+    "accountName": "Account name",
+    "jobs": "Jobs & payment",
+    "prefix": "Job number prefix",
+    "deposit": "Default deposit %",
+    "leadTime": "Default lead time (working days)",
+    "quoteValidity": "Quotation validity (days)",
+    "tax": "Tax",
+    "taxEnabled": "Charge SST / tax",
+    "taxRate": "Tax rate %",
+    "taxNumber": "SST registration no.",
+    "save": "Save",
+    "saved": "Saved.",
+    "onlyOwner": "Only the Super Admin can change settings.",
+    "stages": "Stages",
+    "fabrics": "Fabrics",
+    "garments": "Garment types",
+    "nonPoly": "Not polyester: sublimation will not work"
+  },
+  "role": {
+    "super_admin": "Owner",
+    "admin": "Admin",
+    "designer": "Designer",
+    "template": "Template",
+    "printing": "Printing & Press",
+    "cutting_sewing": "Cutting & Sewing",
+    "qc": "QC",
+    "dispatch": "Dispatch"
+  },
+  "lang": { "en": "English", "ms": "Bahasa Malaysia" }
+}
