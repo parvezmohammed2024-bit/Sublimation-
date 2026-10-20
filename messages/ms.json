@@ -1,6 +1,46 @@
 {
   "app": { "name": "Portal Sublimasi" },
-  "nav": { "queue": "Giliran Saya", "settings": "Tetapan", "logout": "Log keluar" },
+  "nav": { "queue": "Giliran Saya", "jobs": "Kerja", "quotes": "Sebut Harga", "customers": "Pelanggan", "settings": "Tetapan", "logout": "Log keluar" },
+  "customers": {
+    "title": "Pelanggan", "new": "Pelanggan baharu", "empty": "Tiada pelanggan dijumpai.", "searchPlaceholder": "Cari nama, pasukan atau telefon",
+    "name": "Nama kenalan", "organisation": "Pasukan / organisasi", "type": "Jenis pelanggan", "phone": "Telefon WhatsApp",
+    "email": "E-mel", "address": "Alamat", "creditTerms": "Terma kredit (akaun korporat)", "save": "Simpan pelanggan",
+    "badPhone": "Masukkan nombor telefon Malaysia yang sah.", "saveFailed": "Tidak dapat simpan. Semak ruangan dan cuba lagi.",
+    "newQuote": "Sebut harga baharu", "quotes": "Sebut harga", "jobs": "Kerja", "none": "Belum ada.",
+    "types": { "individual": "Individu", "school": "Sekolah", "club": "Kelab", "corporate": "Korporat", "government": "Kerajaan" }
+  },
+  "quotes": {
+    "title": "Sebut Harga", "new": "Sebut harga baharu", "empty": "Belum ada sebut harga.", "customer": "Pelanggan", "dueDate": "Tarikh siap / acara",
+    "priority": "Keutamaan", "normal": "Biasa", "rush": "Segera", "rushFee": "Caj segera", "line": "Item", "addLine": "Tambah item",
+    "remove": "Buang", "garment": "Pakaian", "fabric": "Fabrik", "collar": "Kolar", "sleeve": "Lengan", "cutting": "Potongan",
+    "qty": "Kuantiti", "unitPrice": "Harga sehelai", "useTier": "Guna harga peringkat {price}", "addAddon": "Tambah tambahan",
+    "addonLabel": "Tambahan (cth. nama, logo penaja)", "perPiece": "Sehelai", "flat": "Sekali sahaja", "lineNotes": "Nota item",
+    "notes": "Nota", "subtotal": "Jumlah kecil", "tax": "Cukai", "total": "Jumlah", "save": "Simpan sebut harga",
+    "saveFailed": "Tidak dapat simpan sebut harga.", "validUntil": "sah sehingga", "pc": "helai", "sendWhatsapp": "Hantar melalui WhatsApp",
+    "markSent": "Tandakan telah dihantar", "createJob": "Pelanggan setuju: cipta lembaran kerja", "openJob": "Buka kerja",
+    "nonPoly": "Fabrik ini bukan poliester. Sublimasi tidak akan berfungsi.",
+    "status": { "draft": "Draf", "sent": "Dihantar", "accepted": "Diterima", "expired": "Tamat tempoh", "rejected": "Ditolak" },
+    "sleeves": { "short": "Pendek", "long": "Panjang", "sleeveless": "Tanpa lengan" },
+    "cuttings": { "regular": "Biasa", "slim": "Slim", "muslimah": "Muslimah" }
+  },
+  "jobs": {
+    "title": "Kerja", "empty": "Tiada kerja dijumpai.", "searchPlaceholder": "Cari no. kerja, nama, pasukan atau telefon", "rush": "Segera", "due": "siap",
+    "stage": "Peringkat", "dueDate": "Tarikh siap", "downloadPdf": "Muat turun lembaran kerja (PDF)", "items": "Item", "payment": "Bayaran",
+    "total": "Jumlah", "paid": "Dibayar", "pending": "Menunggu pengesahan", "balance": "Baki perlu dibayar", "nameList": "Senarai nama & saiz",
+    "noNameList": "Belum dihantar.", "details": "Butiran kerja", "priority": "Keutamaan", "designer": "Pereka",
+    "designBrief": "Ringkasan reka bentuk", "locked": "dikunci selepas kelulusan", "internalNotes": "Nota dalaman (staf sahaja)",
+    "customerNotes": "Nota untuk pelanggan", "save": "Simpan perubahan", "attachments": "Lampiran", "upload": "Muat naik fail",
+    "delete": "Padam",
+    "kinds": { "logo": "Logo", "reference": "Rujukan", "other": "Lain-lain" },
+    "payStatus": { "UNPAID": "Belum bayar", "PARTIALLY_PAID": "Sebahagian, deposit belum cukup", "DEPOSIT_PAID": "Deposit dibayar", "FULLY_PAID": "Bayaran penuh", "CREDIT_TERMS": "Terma kredit" }
+  },
+  "release": { "green": "Boleh dihantar", "amber": "Sedia, baki belum dijelaskan", "red": "Lewat", "due": "baki" },
+  "pdf": {
+    "title": "Lembaran kerja", "customer": "Pelanggan", "stage": "Peringkat", "due": "Tarikh siap", "rush": "SEGERA", "qty": "helai", "items": "Item",
+    "garment": "Pakaian", "fabric": "Fabrik", "collar": "Kolar", "sleeve": "Lengan", "cutting": "Potongan", "sizes": "Pecahan saiz",
+    "noSizes": "Senarai nama & saiz belum dihantar.", "brief": "Ringkasan reka bentuk", "notes": "Arahan khas", "mockup": "Mockup",
+    "noMockup": "Belum ada mockup", "balance": "BAKI PERLU DIBAYAR", "scan": "Imbas untuk kemas kini", "orderDate": "Tarikh tempahan"
+  },
   "auth": {
     "title": "Log masuk staf",
     "email": "E-mel",

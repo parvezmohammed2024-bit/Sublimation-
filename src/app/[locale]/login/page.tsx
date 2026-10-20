@@ -4,7 +4,8 @@ import { SetupNotice } from "@/components/SetupNotice";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { LoginForm } from "./LoginForm";
 
-export default async function LoginPage() {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+  const { next } = await searchParams;
   if (!isSupabaseConfigured()) return <SetupNotice />;
   const t = await getTranslations("auth");
   return (
@@ -13,7 +14,7 @@ export default async function LoginPage() {
         <h1 className="text-2xl font-semibold">{t("title")}</h1>
         <LocaleSwitcher />
       </div>
-      <LoginForm />
+      <LoginForm next={next} />
     </main>
   );
 }

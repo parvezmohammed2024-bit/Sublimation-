@@ -59,6 +59,12 @@ insert into garment_types (shop_id, name, is_garment) values
  ('00000000-0000-0000-0000-000000000001','Lanyard',false),
  ('00000000-0000-0000-0000-000000000001','Banner / flag',false);
 
+-- Demo quantity price tiers (RM per piece, in sen). Edit to match your real price list.
+update garment_types set price_tiers = '[{"minQty":1,"priceSen":7500},{"minQty":20,"priceSen":6500},{"minQty":50,"priceSen":5800},{"minQty":100,"priceSen":5200}]'
+  where name in ('Round neck jersey','V-neck jersey','Esports jersey','Cycling jersey');
+update garment_types set price_tiers = '[{"minQty":1,"priceSen":8500},{"minQty":20,"priceSen":7500},{"minQty":50,"priceSen":6800}]'
+  where name in ('Collar / polo jersey','Muslimah jersey (long sleeve)');
+
 insert into collar_types (shop_id, name) values
  ('00000000-0000-0000-0000-000000000001','Round neck'),
  ('00000000-0000-0000-0000-000000000001','V-neck'),

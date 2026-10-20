@@ -2,7 +2,10 @@
 
 Job tracking portal for a Malaysian dye-sublimation print shop: order → design → template → printing → cutting & sewing → QC → collection, with payment status controlling release of goods. Staff portal plus a no-login customer tracking page. English and Bahasa Malaysia.
 
-**Status: Phase 1 (Foundation).** Done: business rules + tests, database schema + RLS, auth, role-aware layout, EN/BM toggle, My Queue, Settings (shop, bank, deposit, tax). Next: customers, quotations, job sheets (Phase 2).
+**Status: Phase 2 of 9.**
+- Phase 1 (done): business rules + tests, schema + RLS, auth, role-aware layout, EN/BM toggle, My Queue, Settings.
+- Phase 2 (done): customers (Malaysian phone normalisation), quotations with line items / add-ons / rush fee / configurable tax / quantity price tiers, quotation → job sheet with `SB-YYMM-0001` numbering, attachments, A4 job sheet PDF with QR (`/api/jobs/{id}/pdf`).
+- Next: Phase 3, the workflow engine (stage transitions with guards, kanban, QR scan screen).
 
 Stack: Next.js (App Router) · TypeScript · Tailwind · Supabase (Postgres, Auth, Storage, Realtime) · next-intl · Zod · Vercel.
 
@@ -30,7 +33,8 @@ In the Supabase dashboard open **SQL Editor** and run, in order, the full conten
 
 1. `supabase/migrations/0001_schema.sql`
 2. `supabase/migrations/0002_rls.sql`
-3. `supabase/seed.sql` (demo shop, stages, fabrics, garment types, 4 customers, 10 jobs)
+3. `supabase/migrations/0003_quotes_jobs.sql`
+4. `supabase/seed.sql` (demo shop, stages, fabrics, garment types, 4 customers, 10 jobs)
 
 (Or with the Supabase CLI: `supabase link` then `supabase db push`.)
 

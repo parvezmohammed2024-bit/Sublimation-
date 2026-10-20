@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { login } from "./actions";
 
-export function LoginForm() {
+export function LoginForm({ next }: { next?: string }) {
   const t = useTranslations("auth");
   const locale = useLocale();
   const [state, action, pending] = useActionState(login, undefined);
@@ -12,6 +12,7 @@ export function LoginForm() {
   return (
     <form action={action} className="space-y-4">
       <input type="hidden" name="locale" value={locale} />
+      {next && <input type="hidden" name="next" value={next} />}
       <label className="block text-sm">
         {t("email")}
         <input name="email" type="email" autoComplete="email" required className={field} />

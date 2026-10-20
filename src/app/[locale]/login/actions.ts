@@ -4,7 +4,15 @@ import { redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
 
-const schema = z.object({ email: z.string().email(), password: z.string().min(1), locale: z.string() });
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
+  locale: z.string(),
+  next: z.string().optional(),
+});
+
+/** Only same-site relative paths; blocks open redirects like //evil.com. */
+const safeNext = (n?: string) => (n && /^\/(?!\/)[\w\-./?=&%]*$/.test(n) ? n : "/queue");
 
 export async function login(_prev: { error?: string } | undefined, formData: FormData) {
   const parsed = schema.safeParse(Object.fromEntries(formData));
@@ -15,7 +23,7 @@ export async function login(_prev: { error?: string } | undefined, formData: For
     password: parsed.data.password,
   });
   if (error) return { error: "invalid" };
-  redirect({ href: "/queue", locale: parsed.data.locale });
+  redirect({ href: safeNext(parsed.data.next), locale: parsed.data.locale });
 }
 
 export async function logout(formData: FormData) {

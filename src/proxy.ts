@@ -25,7 +25,10 @@ export default async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname.replace(/^\/(ms|en)(?=\/|$)/, "") || "/";
   const locale = request.nextUrl.pathname.match(/^\/(ms|en)(?=\/|$)/)?.[1] ?? routing.defaultLocale;
   if (!data.user && !PUBLIC.some((re) => re.test(path))) {
-    return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+    // Remember where they were going (e.g. a job QR code) so login can send them back.
+    const login = new URL(`/${locale}/login`, request.url);
+    if (path !== "/") login.searchParams.set("next", path + request.nextUrl.search);
+    return NextResponse.redirect(login);
   }
   return response;
 }

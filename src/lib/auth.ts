@@ -1,3 +1,4 @@
+import { redirect } from "@/i18n/navigation";
 import { createClient } from "./supabase/server";
 import type { Role } from "./rules/stages";
 
@@ -7,6 +8,16 @@ export interface StaffProfile {
   full_name: string;
   role: Role;
   locale: "en" | "ms";
+}
+
+export const isAdminRole = (role: Role) => role === "super_admin" || role === "admin";
+
+/** Pages and actions for front-desk work. Redirects anyone else. */
+export async function requireAdmin(locale: string): Promise<StaffProfile> {
+  const profile = await getProfile();
+  if (!profile) redirect({ href: "/login", locale });
+  if (!isAdminRole(profile!.role)) redirect({ href: "/queue", locale });
+  return profile!;
 }
 
 /** Returns the logged-in staff profile, or null if not logged in / no profile. */

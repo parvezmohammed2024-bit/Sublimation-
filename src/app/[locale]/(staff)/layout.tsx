@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link, redirect } from "@/i18n/navigation";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { SetupNotice } from "@/components/SetupNotice";
-import { getProfile } from "@/lib/auth";
+import { getProfile, isAdminRole } from "@/lib/auth";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { logout } from "../login/actions";
 
@@ -20,6 +20,7 @@ export default async function StaffLayout({
 
   const t = await getTranslations();
   const isOwner = profile!.role === "super_admin";
+  const isAdmin = isAdminRole(profile!.role);
   return (
     <div className="mx-auto min-h-dvh max-w-3xl pb-20">
       <header className="flex items-center justify-between gap-3 border-b border-line bg-card px-4 py-3">
@@ -37,10 +38,17 @@ export default async function StaffLayout({
       </header>
       <main className="p-4">{children}</main>
       <nav className="fixed inset-x-0 bottom-0 border-t border-line bg-card">
-        <div className="mx-auto flex max-w-3xl">
-          <Link href="/queue" className="flex-1 py-4 text-center font-medium">{t("nav.queue")}</Link>
+        <div className="mx-auto flex max-w-3xl text-sm font-medium">
+          <Link href="/queue" className="flex-1 py-4 text-center">{t("nav.queue")}</Link>
+          {isAdmin && (
+            <>
+              <Link href="/jobs" className="flex-1 py-4 text-center">{t("nav.jobs")}</Link>
+              <Link href="/quotations" className="flex-1 py-4 text-center">{t("nav.quotes")}</Link>
+              <Link href="/customers" className="flex-1 py-4 text-center">{t("nav.customers")}</Link>
+            </>
+          )}
           {isOwner && (
-            <Link href="/settings" className="flex-1 py-4 text-center font-medium">{t("nav.settings")}</Link>
+            <Link href="/settings" className="flex-1 py-4 text-center">{t("nav.settings")}</Link>
           )}
         </div>
       </nav>

@@ -1,6 +1,46 @@
 {
   "app": { "name": "Sublimation Portal" },
-  "nav": { "queue": "My Queue", "settings": "Settings", "logout": "Log out" },
+  "nav": { "queue": "My Queue", "jobs": "Jobs", "quotes": "Quotes", "customers": "Customers", "settings": "Settings", "logout": "Log out" },
+  "customers": {
+    "title": "Customers", "new": "New customer", "empty": "No customers found.", "searchPlaceholder": "Search name, team or phone",
+    "name": "Contact name", "organisation": "Team / organisation", "type": "Customer type", "phone": "WhatsApp phone",
+    "email": "Email", "address": "Address", "creditTerms": "Credit terms (corporate account)", "save": "Save customer",
+    "badPhone": "Enter a valid Malaysian phone number.", "saveFailed": "Could not save. Check the fields and try again.",
+    "newQuote": "New quotation", "quotes": "Quotations", "jobs": "Jobs", "none": "None yet.",
+    "types": { "individual": "Individual", "school": "School", "club": "Club", "corporate": "Corporate", "government": "Government" }
+  },
+  "quotes": {
+    "title": "Quotations", "new": "New quotation", "empty": "No quotations yet.", "customer": "Customer", "dueDate": "Due / event date",
+    "priority": "Priority", "normal": "Normal", "rush": "Rush", "rushFee": "Rush fee", "line": "Item", "addLine": "Add item",
+    "remove": "Remove", "garment": "Garment", "fabric": "Fabric", "collar": "Collar", "sleeve": "Sleeve", "cutting": "Cutting",
+    "qty": "Quantity", "unitPrice": "Price per piece", "useTier": "Use tier price {price}", "addAddon": "Add extra",
+    "addonLabel": "Extra (e.g. names, sponsor logo)", "perPiece": "Per piece", "flat": "One-off", "lineNotes": "Item notes",
+    "notes": "Notes", "subtotal": "Subtotal", "tax": "Tax", "total": "Total", "save": "Save quotation",
+    "saveFailed": "Could not save the quotation.", "validUntil": "valid until", "pc": "pc", "sendWhatsapp": "Send via WhatsApp",
+    "markSent": "Mark as sent", "createJob": "Customer accepted: create job sheet", "openJob": "Open job",
+    "nonPoly": "This fabric is not polyester. Sublimation will not work on it.",
+    "status": { "draft": "Draft", "sent": "Sent", "accepted": "Accepted", "expired": "Expired", "rejected": "Rejected" },
+    "sleeves": { "short": "Short", "long": "Long", "sleeveless": "Sleeveless" },
+    "cuttings": { "regular": "Regular", "slim": "Slim", "muslimah": "Muslimah" }
+  },
+  "jobs": {
+    "title": "Jobs", "empty": "No jobs found.", "searchPlaceholder": "Search job no., name, team or phone", "rush": "Rush", "due": "due",
+    "stage": "Stage", "dueDate": "Due date", "downloadPdf": "Download job sheet (PDF)", "items": "Items", "payment": "Payment",
+    "total": "Total", "paid": "Paid", "pending": "Awaiting verification", "balance": "Balance due", "nameList": "Name & size list",
+    "noNameList": "Not submitted yet.", "details": "Job details", "priority": "Priority", "designer": "Designer",
+    "designBrief": "Design brief", "locked": "locked after approval", "internalNotes": "Internal notes (staff only)",
+    "customerNotes": "Notes visible to customer", "save": "Save changes", "attachments": "Attachments", "upload": "Upload file",
+    "delete": "Delete",
+    "kinds": { "logo": "Logo", "reference": "Reference", "other": "Other" },
+    "payStatus": { "UNPAID": "Unpaid", "PARTIALLY_PAID": "Part paid, deposit not met", "DEPOSIT_PAID": "Deposit paid", "FULLY_PAID": "Fully paid", "CREDIT_TERMS": "Credit terms" }
+  },
+  "release": { "green": "Ready to release", "amber": "Ready, balance outstanding", "red": "Overdue", "due": "due" },
+  "pdf": {
+    "title": "Job sheet", "customer": "Customer", "stage": "Stage", "due": "Due date", "rush": "RUSH", "qty": "pcs", "items": "Items",
+    "garment": "Garment", "fabric": "Fabric", "collar": "Collar", "sleeve": "Sleeve", "cutting": "Cutting", "sizes": "Size breakdown",
+    "noSizes": "Name & size list not submitted yet.", "brief": "Design brief", "notes": "Special instructions", "mockup": "Mockup",
+    "noMockup": "No mockup yet", "balance": "BALANCE DUE", "scan": "Scan to update", "orderDate": "Ordered"
+  },
   "auth": {
     "title": "Staff login",
     "email": "Email",
