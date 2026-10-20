@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { getProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { SettingsForm, type SettingsValues } from "./SettingsForm";
@@ -6,6 +7,7 @@ import { SettingsForm, type SettingsValues } from "./SettingsForm";
 export default async function SettingsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations("settings");
+  const tt = await getTranslations("team");
   const profile = await getProfile();
   if (profile?.role !== "super_admin") return <p className="text-muted">{t("onlyOwner")}</p>;
 
@@ -28,6 +30,7 @@ export default async function SettingsPage({ params }: { params: Promise<{ local
     default_deposit_percent: s?.default_deposit_percent ?? 50,
     default_lead_time_days: s?.default_lead_time_days ?? 14,
     quote_validity_days: s?.quote_validity_days ?? 30,
+    free_revisions: s?.free_revisions ?? 2,
     tax_enabled: s?.tax_enabled ?? false,
     tax_rate: s?.tax_rate ?? null,
     tax_number: s?.tax_number ?? "",
@@ -36,6 +39,9 @@ export default async function SettingsPage({ params }: { params: Promise<{ local
   return (
     <section className="space-y-8">
       <h1 className="text-xl font-semibold">{t("title")}</h1>
+      <Link href="/settings/team" className="block rounded-xl border border-line bg-card p-4 font-medium">
+        {tt("title")} →
+      </Link>
       <SettingsForm values={values} />
 
       <div>

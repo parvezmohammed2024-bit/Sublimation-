@@ -11,7 +11,7 @@ import {
 } from "./stages";
 import type { PaymentStatus } from "./payments";
 
-export type Actor = Role | "customer";
+export type Actor = Role | "customer" | "system";
 
 /** Default allowed edges. Disabled stages are skipped by `allowedTargets`. */
 const GRAPH: Record<string, string[]> = {
@@ -65,6 +65,7 @@ export type TransitionErrorCode =
   | "DESIGN_NOT_APPROVED"
   | "NAME_LIST_NOT_CONFIRMED"
   | "QC_SHORTFALL"
+  | "MOCKUP_REQUIRED"
   | "PAYMENT_LOCK"
   | "OVERRIDE_FORBIDDEN"
   | "RESUME_TARGET_REQUIRED";
@@ -84,6 +85,8 @@ export interface TransitionInput {
   overridePaymentLock?: boolean;
   designApproved: boolean;
   nameListConfirmed: boolean;
+  /** A draft mockup has been uploaded for the designer to send. */
+  mockupReady: boolean;
   /** Pieces still failing QC / short vs the order. Must be 0 to leave QC. */
   qcShortfall: number;
   /** Stage keys enabled for this shop; defaults to all. */
@@ -147,10 +150,14 @@ export function evaluateTransition(i: TransitionInput): TransitionResult {
     (i.to === "DESIGN_APPROVED" || i.to === "REVISION_REQUESTED");
   if (i.actor === "customer" && !customerEdge) return fail("ROLE_FORBIDDEN");
 
+  // After the customer signs off, the system opens the name-list step itself (no admin click).
+  const systemEdge = i.actor === "system" && i.from === "DESIGN_APPROVED" && i.to === "AWAITING_NAME_LIST";
+  if (i.actor === "system" && !systemEdge) return fail("ROLE_FORBIDDEN");
+
   const isUnlock =
     i.to === "DESIGNING" && (DESIGN_LOCKED_FROM as readonly string[]).includes(i.from);
 
-  if (!customerEdge) {
+  if (!customerEdge && !systemEdge) {
     if ((ADMIN_ONLY_TARGETS.has(i.to) || SIGNOFF_TARGETS.has(i.to)) && !ADMINS.includes(i.actor)) {
       return fail("ROLE_FORBIDDEN");
     }
@@ -173,6 +180,9 @@ export function evaluateTransition(i: TransitionInput): TransitionResult {
     if (!hasReason(i.reason)) return fail("REASON_REQUIRED");
     audit.push("deposit_waived");
   }
+
+  // A mockup must exist before it can be sent to the customer.
+  if (i.from === "DESIGNING" && i.to === "MOCKUP_SENT" && !i.mockupReady) return fail("MOCKUP_REQUIRED");
 
   if (i.to === "TEMPLATE") {
     if (!i.designApproved) return fail("DESIGN_NOT_APPROVED");

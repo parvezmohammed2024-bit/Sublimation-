@@ -11,6 +11,8 @@ export interface StageActionOption {
   side: boolean;
   status: OptionStatus;
   code?: string;
+  /** Set when the next stage belongs to a different section: shown as "Send to <section>". */
+  handoff?: string;
 }
 
 const field = "w-full rounded-lg border border-line bg-card px-3 py-3 text-base";
@@ -59,7 +61,7 @@ function StageButton({ jobId, opt, compact = false }: { jobId: string; opt: Stag
                 : "w-full rounded-xl bg-brand px-4 py-5 text-lg font-semibold text-white disabled:opacity-60"
           }
         >
-          {opt.side ? opt.label : `${t("moveTo")} ${opt.label}`}
+          {opt.side ? opt.label : opt.handoff ? t("sendTo", { section: opt.handoff }) : `${t("moveTo")} ${opt.label}`}
         </button>
         {!opt.side && !compact && (
           <details className="text-sm">

@@ -39,7 +39,7 @@ export interface StageDef {
 export const DEFAULT_STAGES: StageDef[] = [
   { key: "QUOTATION_DRAFT", position: 0, section: "sales", labelEn: "Quotation draft", labelMs: "Draf sebut harga", customerLabelEn: "Quotation", customerLabelMs: "Sebut harga" },
   { key: "QUOTATION_SENT", position: 1, section: "sales", labelEn: "Quotation sent", labelMs: "Sebut harga dihantar", customerLabelEn: "Quotation", customerLabelMs: "Sebut harga" },
-  { key: "CONFIRMED", position: 2, section: "sales", labelEn: "Confirmed", labelMs: "Disahkan", customerLabelEn: "Order confirmed", customerLabelMs: "Tempahan disahkan" },
+  { key: "CONFIRMED", position: 2, section: "design", labelEn: "Confirmed", labelMs: "Disahkan", customerLabelEn: "Order confirmed", customerLabelMs: "Tempahan disahkan" },
   { key: "DESIGNING", position: 3, section: "design", labelEn: "Designing", labelMs: "Sedang reka", customerLabelEn: "Design", customerLabelMs: "Reka bentuk" },
   { key: "MOCKUP_SENT", position: 4, section: "design", labelEn: "Mockup sent", labelMs: "Mockup dihantar", customerLabelEn: "Design", customerLabelMs: "Reka bentuk" },
   { key: "REVISION_REQUESTED", position: null, section: "design", labelEn: "Revision requested", labelMs: "Semakan diminta", customerLabelEn: "Design", customerLabelMs: "Reka bentuk" },
@@ -68,6 +68,20 @@ export const DESIGN_LOCKED_FROM = ["DESIGN_APPROVED", "AWAITING_NAME_LIST", "NAM
 export const TERMINAL_STAGES = new Set(
   DEFAULT_STAGES.filter((s) => s.isTerminal).map((s) => s.key),
 );
+
+/** The one section each role belongs to (used to group the team page). */
+export const ROLE_SECTION: Record<Role, Section> = {
+  super_admin: "sales",
+  admin: "sales",
+  designer: "design",
+  template: "template",
+  printing: "printing",
+  cutting_sewing: "sewing",
+  qc: "qc",
+  dispatch: "dispatch",
+};
+
+export const ALL_ROLES = Object.keys(ROLE_SECTION) as Role[];
 
 /** Which role may operate jobs currently sitting in a given section. */
 export const SECTION_ROLES: Record<Section, Role[]> = {

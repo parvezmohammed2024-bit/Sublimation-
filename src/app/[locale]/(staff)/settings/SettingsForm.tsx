@@ -8,7 +8,7 @@ export interface SettingsValues {
   shop_name: string; address: string; phone: string;
   bank_name: string; account_no: string; account_name: string;
   job_prefix: string; default_deposit_percent: number;
-  default_lead_time_days: number; quote_validity_days: number;
+  default_lead_time_days: number; quote_validity_days: number; free_revisions: number;
   tax_enabled: boolean; tax_rate: number | null; tax_number: string;
 }
 
@@ -48,6 +48,7 @@ export function SettingsForm({ values }: { values: SettingsValues }) {
         <Field label={t("deposit")} name="default_deposit_percent" type="number" defaultValue={values.default_deposit_percent} />
         <Field label={t("leadTime")} name="default_lead_time_days" type="number" defaultValue={values.default_lead_time_days} />
         <Field label={t("quoteValidity")} name="quote_validity_days" type="number" defaultValue={values.quote_validity_days} />
+        <Field label={t("freeRevisions")} name="free_revisions" type="number" defaultValue={values.free_revisions} />
       </fieldset>
       <fieldset className="space-y-3">
         <legend className="mb-1 font-semibold">{t("tax")}</legend>

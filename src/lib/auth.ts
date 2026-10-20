@@ -20,6 +20,14 @@ export async function requireAdmin(locale: string): Promise<StaffProfile> {
   return profile!;
 }
 
+/** Owner-only pages and actions (team, settings). */
+export async function requireOwner(locale: string): Promise<StaffProfile> {
+  const profile = await getProfile();
+  if (!profile) redirect({ href: "/login", locale });
+  if (profile!.role !== "super_admin") redirect({ href: "/queue", locale });
+  return profile!;
+}
+
 /** Returns the logged-in staff profile, or null if not logged in / no profile. */
 export async function getProfile(): Promise<StaffProfile | null> {
   const supabase = await createClient();

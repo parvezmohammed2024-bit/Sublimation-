@@ -2,11 +2,13 @@
 
 Job tracking portal for a Malaysian dye-sublimation print shop: order → design → template → printing → cutting & sewing → QC → collection, with payment status controlling release of goods. Staff portal plus a no-login customer tracking page. English and Bahasa Malaysia.
 
-**Status: Phase 3 of 9.**
+**Status: Phase 4 of 9.**
 - Phase 1 (done): business rules + tests, schema + RLS, auth, role-aware layout, EN/BM toggle, My Queue, Settings.
 - Phase 2 (done): customers (Malaysian phone normalisation), quotations with line items / add-ons / rush fee / configurable tax / quantity price tiers, quotation → job sheet with `SB-YYMM-0001` numbering, attachments, A4 job sheet PDF with QR (`/api/jobs/{id}/pdf`).
 - Phase 3 (done): workflow engine. Every stage change goes through one server path (`src/lib/workflow/perform.ts` -> rules in `src/lib/rules/workflow.ts` -> DB function `apply_transition`), with one-tap stage buttons, hold/cancel/waiver/override reasons, photo + note, job timeline, My Queue sorted by urgency, kanban board with filters and drag-to-move, live updates, in-app notifications.
-- Next: Phase 4, design and approval (mockup versions, customer approve / revise, design lock).
+- Sections (done): work belongs to sections, not to one admin. Each section's staff move their own jobs and hand them to the next section ("Send to Printing & Press", "Send to Cutting & Sewing"); confirmed jobs land in the designers' queue. Staff can claim a job ("I'll take this job"), and the Owner manages staff per section at Settings → Team.
+- Phase 4 (done): designers upload versioned mockups and send them to the customer; the customer approves (typed name + confirmation, IP logged) or requests changes (comment + picture) on the public `/track/{token}` page; approval locks the design and opens the name-list step automatically; only the Owner can unlock, with a reason. Free-revision count is configurable.
+- Next: Phase 5, name & size list (customer grid with paste/CSV, admin entry on their behalf, validation, size totals).
 
 Stack: Next.js (App Router) · TypeScript · Tailwind · Supabase (Postgres, Auth, Storage, Realtime) · next-intl · Zod · Vercel.
 
@@ -36,7 +38,9 @@ In the Supabase dashboard open **SQL Editor** and run, in order, the full conten
 2. `supabase/migrations/0002_rls.sql`
 3. `supabase/migrations/0003_quotes_jobs.sql`
 4. `supabase/migrations/0004_workflow.sql`
-5. `supabase/seed.sql` (demo shop, stages, fabrics, garment types, 4 customers, 10 jobs)
+5. `supabase/migrations/0005_sections.sql`
+6. `supabase/migrations/0006_design.sql`
+7. `supabase/seed.sql` (demo shop, stages, fabrics, garment types, 4 customers, 10 jobs)
 
 (Or with the Supabase CLI: `supabase link` then `supabase db push`.)
 

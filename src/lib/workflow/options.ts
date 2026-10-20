@@ -29,6 +29,8 @@ export interface FlowState {
   paidSen: number;
   depositPercent: number;
   creditTerms: boolean;
+  /** A draft mockup exists, ready to send to the customer. */
+  mockupReady: boolean;
   /** Unresolved QC defect pieces. Must be 0 to leave QC. */
   qcShortfall: number;
 }
@@ -46,10 +48,11 @@ export interface FlowRow {
   customers: { credit_terms: boolean } | null;
   payments: { amount: number | string; verified: boolean }[] | null;
   qc_defects: { qty: number; resolved: boolean }[] | null;
+  mockups: { status: string }[] | null;
 }
 
 export const FLOW_SELECT =
-  "id, stage_key, prev_stage_key, design_approved, name_list_confirmed, deposit_waived, total, deposit_percent, customers(credit_terms), payments(amount, verified), qc_defects(qty, resolved)";
+  "id, stage_key, prev_stage_key, design_approved, name_list_confirmed, deposit_waived, total, deposit_percent, customers(credit_terms), payments(amount, verified), qc_defects(qty, resolved), mockups(status)";
 
 export function flowStateFromRow(r: FlowRow): FlowState {
   return {
@@ -65,6 +68,7 @@ export function flowStateFromRow(r: FlowRow): FlowState {
     ),
     depositPercent: Number(r.deposit_percent),
     creditTerms: !!r.customers?.credit_terms,
+    mockupReady: (r.mockups ?? []).some((m) => m.status === "draft"),
     qcShortfall: (r.qc_defects ?? []).reduce((n, d) => (d.resolved ? n : n + d.qty), 0),
   };
 }
@@ -85,6 +89,7 @@ export function baseInput(s: FlowState, actor: Actor, to: string, enabledStages?
     depositMet: s.depositWaived || isDepositMet(s.paidSen, depositSen),
     designApproved: s.designApproved,
     nameListConfirmed: s.nameListConfirmed,
+    mockupReady: s.mockupReady,
     qcShortfall: s.qcShortfall,
     enabledStages,
   };
@@ -144,6 +149,7 @@ export function transitionOptions(s: FlowState, actor: Actor, enabledStages?: st
       case "DESIGN_NOT_APPROVED":
       case "NAME_LIST_NOT_CONFIRMED":
       case "QC_SHORTFALL":
+      case "MOCKUP_REQUIRED":
         out.push({ to, side, status: "blocked", code: first.code });
         break;
       default:

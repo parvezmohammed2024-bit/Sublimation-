@@ -1,7 +1,7 @@
 {
   "app": { "name": "Portal Sublimasi" },
   "workflow": {
-    "moveTo": "Siap → ", "addPhotoNote": "Tambah nota atau gambar", "note": "Nota (pilihan)", "reason": "Sebab (wajib)",
+    "moveTo": "Siap → ", "sendTo": "Hantar ke {section}", "addPhotoNote": "Tambah nota atau gambar", "note": "Nota (pilihan)", "reason": "Sebab (wajib)",
     "reasonHint": "Nyatakan sebab. Ia disimpan dalam garis masa kerja.", "waiveHint": "Tiada deposit direkodkan. Pengecualian direkod dengan nama dan sebab anda.",
     "overrideHint": "Baki belum dijelaskan. Melepaskan barang juga direkod dengan nama dan sebab anda.",
     "waiveDeposit": "kecualikan deposit", "overridePayment": "lepaskan tanpa bayaran penuh", "confirm": "Sahkan",
@@ -16,6 +16,7 @@
       "DESIGN_NOT_APPROVED": "Menunggu pelanggan meluluskan reka bentuk.",
       "NAME_LIST_NOT_CONFIRMED": "Menunggu senarai nama dan saiz disahkan.",
       "QC_SHORTFALL": "Masih ada helai gagal QC. Selesaikan kerja semula dahulu.",
+      "MOCKUP_REQUIRED": "Muat naik mockup dahulu, kemudian hantar kepada pelanggan.",
       "PAYMENT_LOCK": "Baki belum dijelaskan sepenuhnya. Barang tidak boleh dilepaskan.",
       "OVERRIDE_FORBIDDEN": "Hanya Pemilik boleh melepaskan barang tanpa bayaran penuh.",
       "RESUME_TARGET_REQUIRED": "Sambung semula kerja ke peringkat asalnya.",
@@ -23,6 +24,36 @@
       "CONFLICT": "Orang lain baru sahaja memindahkan kerja ini. Muat semula dan cuba lagi.",
       "FAILED": "Ada masalah. Sila cuba lagi."
     }
+  },
+  "mockups": {
+    "title": "Mockup", "none": "Belum ada mockup dimuat naik.", "version": "Versi {n}", "openPdf": "Buka PDF", "comment": "Nota untuk pelanggan (pilihan)",
+    "upload": "Muat naik versi baharu", "uploaded": "Dimuat naik. Guna butang di atas untuk hantar kepada pelanggan.",
+    "revisions": "Semakan {used} / {free} percuma", "overFree": "Semakan percuma telah habis. Perubahan lanjut mungkin dikenakan caj.",
+    "shareTitle": "Pautan pelanggan", "shareHint": "Pelanggan menyemak dan meluluskan mockup di sini.", "sendWhatsapp": "Hantar pautan melalui WhatsApp",
+    "status": { "draft": "Draf", "sent": "Dihantar kepada pelanggan", "approved": "Diluluskan", "revision_requested": "Perubahan diminta", "superseded": "Diganti" },
+    "errors": { "invalid": "Semak fail dan cuba lagi.", "locked": "Reka bentuk dikunci, atau kerja tidak berada di peringkat reka bentuk.", "file": "Guna PNG, JPG, WebP atau PDF kurang 15 MB.", "forbidden": "Anda tidak boleh memuat naik mockup untuk kerja ini.", "failed": "Muat naik gagal. Sila cuba lagi." }
+  },
+  "track": {
+    "status": "Status", "estimatedReady": "Anggaran siap", "reviewTitle": "Sila semak reka bentuk anda", "yourDesign": "Reka bentuk anda", "openPdf": "Buka reka bentuk (PDF)",
+    "approvedNote": "Anda telah meluluskan reka bentuk ini. Terima kasih!", "noMockupYet": "Reka bentuk anda belum siap. Kami akan hubungi anda apabila siap.",
+    "approveTitle": "Luluskan reka bentuk ini", "approve": "Luluskan reka bentuk",
+    "confirmText": "Saya mengesahkan reka bentuk, warna, ejaan dan logo adalah betul. Perubahan selepas kelulusan mungkin dikenakan caj.",
+    "typedName": "Taip nama penuh anda untuk tandatangan", "reviseTitle": "Perlu perubahan?", "revisionsInfo": "Semakan digunakan: {used}. Semakan percuma: {free}.",
+    "comment": "Apa yang perlu kami ubah?", "attach": "Lampirkan gambar (pilihan)", "sendRevision": "Minta perubahan",
+    "errors": {
+      "NAME_REQUIRED": "Sila taip nama penuh anda.", "CONFIRM_REQUIRED": "Sila tanda kotak pengesahan.", "COMMENT_REQUIRED": "Beritahu kami apa yang perlu diubah, atau lampirkan gambar.",
+      "FILE": "Guna gambar PNG, JPG atau WebP kurang 5 MB.", "NOT_FOUND": "Pautan ini tidak sah.", "NOT_ALLOWED": "Reka bentuk ini tidak lagi menunggu keputusan anda.",
+      "CONFLICT": "Baru sahaja dikemas kini. Sila muat semula halaman.", "FAILED": "Ada masalah. Sila cuba lagi."
+    }
+  },
+  "assign": { "take": "Saya ambil kerja ini", "youHaveThis": "Kerja ini dengan anda", "takenBy": "Diambil oleh {name}", "release": "Lepaskan" },
+  "team": {
+    "title": "Pasukan & bahagian", "intro": "Setiap bahagian ada stafnya sendiri. Tambah orang ke bahagian tempat mereka bekerja; mereka hanya nampak dan menggerakkan kerja bahagian sendiri.",
+    "add": "Tambah staf", "fullName": "Nama penuh", "email": "E-mel", "password": "Kata laluan sementara (min 8 aksara)",
+    "role": "Bahagian / peranan", "create": "Cipta akaun", "created": "Akaun dicipta. Kongsi e-mel dan kata laluan dengan mereka secara peribadi.",
+    "deactivate": "Nyahaktif", "reactivate": "Aktifkan semula", "inactive": "Tidak aktif", "you": "anda", "empty": "Belum ada sesiapa dalam bahagian ini.",
+    "back": "Kembali ke tetapan", "change": "Tukar",
+    "errors": { "invalid": "Semak ruangan (kata laluan perlu 8+ aksara).", "exists": "E-mel itu sudah ada akaun.", "forbidden": "Hanya Pemilik boleh mengurus pasukan.", "lastOwner": "Mesti ada sekurang-kurangnya seorang Pemilik aktif.", "self": "Anda tidak boleh menyahaktifkan diri sendiri.", "failed": "Tidak dapat dilakukan. Sila cuba lagi." }
   },
   "board": {
     "title": "Papan", "search": "Cari pelanggan atau no. kerja", "allSections": "Semua bahagian", "anyPriority": "Semua keutamaan",
@@ -88,6 +119,7 @@
     "body": "Salin .env.example ke .env.local dan isi URL serta kunci Supabase anda. Lihat README.md."
   },
   "queue": {
+    "showAll": "Semua", "showMine": "Saya", "showFree": "Belum diambil", "filter": "Tapis",
     "title": "Giliran Saya",
     "empty": "Tiada kerja dalam giliran anda sekarang.",
     "due": "Tarikh akhir",
@@ -109,7 +141,7 @@
     "prefix": "Awalan no. kerja",
     "deposit": "Deposit lalai %",
     "leadTime": "Tempoh siap lalai (hari bekerja)",
-    "quoteValidity": "Tempoh sah sebut harga (hari)",
+    "quoteValidity": "Tempoh sah sebut harga (hari)", "freeRevisions": "Semakan reka bentuk percuma",
     "tax": "Cukai",
     "taxEnabled": "Kenakan SST / cukai",
     "taxRate": "Kadar cukai %",

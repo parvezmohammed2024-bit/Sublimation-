@@ -17,6 +17,7 @@ const base: TransitionInput = {
   depositMet: true,
   designApproved: false,
   nameListConfirmed: false,
+  mockupReady: true,
   qcShortfall: 0,
 };
 const t = (o: Partial<TransitionInput>) => evaluateTransition({ ...base, ...o });
@@ -113,6 +114,18 @@ describe("workflow guards", () => {
     expect(t({ from: "MOCKUP_SENT", to: "REVISION_REQUESTED", actor: "designer" })).toEqual({ ok: false, code: "ROLE_FORBIDDEN" });
     expect(t({ from: "DESIGNING", to: "MOCKUP_SENT", actor: "designer" }).ok).toBe(true);
     expect(t({ from: "MOCKUP_SENT", to: "DESIGN_APPROVED", actor: "admin" }).ok).toBe(true);
+  });
+
+  it("a mockup must be uploaded before it can be sent to the customer", () => {
+    const send = { from: "DESIGNING", to: "MOCKUP_SENT", actor: "designer" as const };
+    expect(t({ ...send, mockupReady: false })).toEqual({ ok: false, code: "MOCKUP_REQUIRED" });
+    expect(t({ ...send, mockupReady: true }).ok).toBe(true);
+  });
+
+  it("the system, not an admin, opens the name list after the customer approves", () => {
+    expect(t({ from: "DESIGN_APPROVED", to: "AWAITING_NAME_LIST", actor: "system" }).ok).toBe(true);
+    expect(t({ from: "DESIGN_APPROVED", to: "NAME_LIST_CONFIRMED", actor: "system" })).toEqual({ ok: false, code: "ROLE_FORBIDDEN" });
+    expect(t({ from: "SEWING", to: "QC", actor: "system" })).toEqual({ ok: false, code: "ROLE_FORBIDDEN" });
   });
 
   it("rejects illegal jumps and edits to closed jobs", () => {

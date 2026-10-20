@@ -1,15 +1,18 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import QRCode from "qrcode";
+import { ClaimBar } from "@/components/ClaimBar";
 import { JobTimeline } from "@/components/JobTimeline";
 import { LiveRefresh } from "@/components/LiveRefresh";
+import { MockupList } from "@/components/MockupList";
 import { ReleaseBadge } from "@/components/ReleaseBadge";
 import { StageActions } from "@/components/StageActions";
 import { getProfile, isAdminRole } from "@/lib/auth";
 import { jobUrl, loadJobSheet } from "@/lib/jobSheet";
-import { formatMyPhone } from "@/lib/rules/phone";
+import { formatMyPhone, whatsappLink } from "@/lib/rules/phone";
 import { createClient } from "@/lib/supabase/server";
 import { formatRM } from "@/lib/utils";
+import { toActionOptions } from "@/lib/workflow/labels";
 import { transitionOptions } from "@/lib/workflow/options";
 import { enabledStageKeys, loadFlowState } from "@/lib/workflow/perform";
 import { redirect } from "@/i18n/navigation";
@@ -28,6 +31,8 @@ export default async function JobPage({ params }: { params: Promise<{ locale: st
   const t = await getTranslations("jobs");
   const q = await getTranslations("quotes");
   const w = await getTranslations("workflow");
+  const sec = await getTranslations("sections");
+  const mk = await getTranslations("mockups");
   const supabase = await createClient();
 
   const job = await loadJobSheet(supabase, id, locale);
@@ -40,16 +45,29 @@ export default async function JobPage({ params }: { params: Promise<{ locale: st
       QRCode.toDataURL(jobUrl(id), { margin: 1, width: 240 }),
       loadFlowState(supabase, id),
       enabledStageKeys(supabase),
-      supabase.from("stages").select("key, label_en, label_ms"),
-      supabase.from("jobs").select("design_brief, internal_notes, customer_notes, designer_id, due_date, priority").eq("id", id).single(),
+      supabase.from("stages").select("key, section, label_en, label_ms"),
+      supabase.from("jobs").select("design_brief, internal_notes, customer_notes, designer_id, due_date, priority, revision_count, tracking_token").eq("id", id).single(),
     ]);
+  const { data: shopSettings } = await supabase.from("settings").select("free_revisions").maybeSingle();
+  const trackUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/${locale}/track/${full?.tracking_token ?? ""}`;
+  const waText =
+    locale === "en"
+      ? `Hi ${job.customer.name}, your design for job ${job.jobNo} is ready. Please review and approve it here: ${trackUrl}`
+      : `Hai ${job.customer.name}, reka bentuk anda untuk kerja ${job.jobNo} sudah siap. Sila semak dan luluskan di sini: ${trackUrl}`;
+  const waLink = whatsappLink(job.customer.phone, waText);
+  const canUploadMockup =
+    ["designer", "admin", "super_admin"].includes(profile!.role) && job.stageKey === "DESIGNING" && !job.designApproved;
 
-  const stageLabel = new Map((stages ?? []).map((s) => [s.key, locale === "en" ? s.label_en : s.label_ms]));
+  const [{ data: assigns }, { data: people }] = await Promise.all([
+    supabase.from("job_assignments").select("section, user_id").eq("job_id", id),
+    supabase.from("profiles").select("id, full_name"),
+  ]);
+  const currentSection = (stages ?? []).find((s) => s.key === job.stageKey)?.section;
+  const holderId = (assigns ?? []).find((a) => a.section === currentSection)?.user_id ?? null;
+  const holderName = (people ?? []).find((p) => p.id === holderId)?.full_name ?? null;
+
   const options = flow
-    ? transitionOptions(flow, profile!.role, enabled).map((o) => ({
-        ...o,
-        label: stageLabel.get(o.to) ?? o.to,
-      }))
+    ? toActionOptions(transitionOptions(flow, profile!.role, enabled), flow.stageKey, stages ?? [], locale, (s) => sec(s))
     : [];
 
   const signed = await Promise.all(
@@ -83,7 +101,39 @@ export default async function JobPage({ params }: { params: Promise<{ locale: st
         </div>
       </div>
 
+      {currentSection && (
+        <div className="rounded-xl border border-line bg-card p-3">
+          <ClaimBar
+            jobId={id}
+            locale={locale}
+            holderId={holderId}
+            holderName={holderName}
+            me={profile!.id}
+            isAdmin={isAdmin}
+          />
+        </div>
+      )}
+
       <StageActions jobId={id} options={options} />
+
+      <MockupList
+        supabase={supabase}
+        jobId={id}
+        canUpload={canUploadMockup}
+        revisionCount={full?.revision_count ?? 0}
+        freeRevisions={shopSettings?.free_revisions ?? 2}
+      />
+
+      {isAdmin && full?.tracking_token && (
+        <div className="space-y-2 rounded-xl border border-line bg-card p-4 text-sm">
+          <h2 className="font-semibold">{mk("shareTitle")}</h2>
+          <p className="text-muted">{mk("shareHint")}</p>
+          <p className="break-all text-xs text-muted">{trackUrl}</p>
+          <a href={waLink} target="_blank" rel="noreferrer" className="block rounded-lg border border-line px-4 py-3 text-center font-medium">
+            {mk("sendWhatsapp")}
+          </a>
+        </div>
+      )}
 
       <a
         href={`/api/jobs/${id}/pdf?locale=${locale}`}

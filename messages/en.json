@@ -1,7 +1,7 @@
 {
   "app": { "name": "Sublimation Portal" },
   "workflow": {
-    "moveTo": "Done → ", "addPhotoNote": "Add note or photo", "note": "Note (optional)", "reason": "Reason (required)",
+    "moveTo": "Done → ", "sendTo": "Send to {section}", "addPhotoNote": "Add note or photo", "note": "Note (optional)", "reason": "Reason (required)",
     "reasonHint": "Say why. This is saved on the job timeline.", "waiveHint": "No deposit recorded. Waiving it is logged with your name and reason.",
     "overrideHint": "Balance is unpaid. Releasing goods anyway is logged with your name and reason.",
     "waiveDeposit": "waive deposit", "overridePayment": "release without full payment", "confirm": "Confirm",
@@ -16,6 +16,7 @@
       "DESIGN_NOT_APPROVED": "Waiting for the customer to approve the design.",
       "NAME_LIST_NOT_CONFIRMED": "Waiting for the name and size list to be confirmed.",
       "QC_SHORTFALL": "Some pieces still failed QC. Resolve the rework first.",
+      "MOCKUP_REQUIRED": "Upload a mockup first, then send it to the customer.",
       "PAYMENT_LOCK": "Balance not fully paid. Goods cannot be released.",
       "OVERRIDE_FORBIDDEN": "Only the Owner can release goods without full payment.",
       "RESUME_TARGET_REQUIRED": "Resume the job to the stage it was on.",
@@ -23,6 +24,36 @@
       "CONFLICT": "Someone else just moved this job. Refresh and try again.",
       "FAILED": "Something went wrong. Please try again."
     }
+  },
+  "mockups": {
+    "title": "Mockups", "none": "No mockup uploaded yet.", "version": "Version {n}", "openPdf": "Open PDF", "comment": "Note for the customer (optional)",
+    "upload": "Upload new version", "uploaded": "Uploaded. Use the button above to send it to the customer.",
+    "revisions": "Revisions {used} / {free} free", "overFree": "Free revisions used up. Further changes may be charged.",
+    "shareTitle": "Customer link", "shareHint": "The customer reviews and approves the mockup here.", "sendWhatsapp": "Send link via WhatsApp",
+    "status": { "draft": "Draft", "sent": "Sent to customer", "approved": "Approved", "revision_requested": "Changes requested", "superseded": "Replaced" },
+    "errors": { "invalid": "Check the file and try again.", "locked": "The design is locked, or the job is not in the design stage.", "file": "Use a PNG, JPG, WebP or PDF under 15 MB.", "forbidden": "You cannot upload mockups for this job.", "failed": "Upload failed. Please try again." }
+  },
+  "track": {
+    "status": "Status", "estimatedReady": "Estimated ready", "reviewTitle": "Please check your design", "yourDesign": "Your design", "openPdf": "Open design (PDF)",
+    "approvedNote": "You approved this design. Thank you!", "noMockupYet": "Your design is not ready yet. We will message you when it is.",
+    "approveTitle": "Approve this design", "approve": "Approve design",
+    "confirmText": "I confirm the design, colours, spelling and logos are correct. Changes after approval may incur charges.",
+    "typedName": "Type your full name to sign", "reviseTitle": "Need changes?", "revisionsInfo": "Revisions used: {used}. Free revisions: {free}.",
+    "comment": "What should we change?", "attach": "Attach a picture (optional)", "sendRevision": "Request changes",
+    "errors": {
+      "NAME_REQUIRED": "Please type your full name.", "CONFIRM_REQUIRED": "Please tick the confirmation box.", "COMMENT_REQUIRED": "Tell us what to change, or attach a picture.",
+      "FILE": "Use a PNG, JPG or WebP picture under 5 MB.", "NOT_FOUND": "This link is not valid.", "NOT_ALLOWED": "This design is no longer waiting for your decision.",
+      "CONFLICT": "This was just updated. Please refresh the page.", "FAILED": "Something went wrong. Please try again."
+    }
+  },
+  "assign": { "take": "I'll take this job", "youHaveThis": "You have this job", "takenBy": "Taken by {name}", "release": "Release" },
+  "team": {
+    "title": "Team & sections", "intro": "Each section has its own staff. Add people to the section they work in; they only see and move their own section's jobs.",
+    "add": "Add staff member", "fullName": "Full name", "email": "Email", "password": "Temporary password (min 8 characters)",
+    "role": "Section / role", "create": "Create account", "created": "Account created. Share the email and password with them privately.",
+    "deactivate": "Deactivate", "reactivate": "Reactivate", "inactive": "Inactive", "you": "you", "empty": "No one in this section yet.",
+    "back": "Back to settings", "change": "Change",
+    "errors": { "invalid": "Check the fields (password needs 8+ characters).", "exists": "That email already has an account.", "forbidden": "Only the Owner can manage the team.", "lastOwner": "There must be at least one active Owner.", "self": "You cannot deactivate yourself.", "failed": "Could not complete that. Please try again." }
   },
   "board": {
     "title": "Board", "search": "Search customer or job no.", "allSections": "All sections", "anyPriority": "Any priority",
@@ -88,6 +119,7 @@
     "body": "Copy .env.example to .env.local and fill in your Supabase URL and keys. See README.md."
   },
   "queue": {
+    "showAll": "All", "showMine": "Mine", "showFree": "Unassigned", "filter": "Filter",
     "title": "My Queue",
     "empty": "Nothing in your queue right now.",
     "due": "Due",
@@ -109,7 +141,7 @@
     "prefix": "Job number prefix",
     "deposit": "Default deposit %",
     "leadTime": "Default lead time (working days)",
-    "quoteValidity": "Quotation validity (days)",
+    "quoteValidity": "Quotation validity (days)", "freeRevisions": "Free design revisions",
     "tax": "Tax",
     "taxEnabled": "Charge SST / tax",
     "taxRate": "Tax rate %",

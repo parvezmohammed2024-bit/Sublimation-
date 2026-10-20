@@ -42,8 +42,24 @@ export async function GET(req: Request, ctx: { params: Promise<{ id: string }> }
     extras: [...i.addons.map((a) => `+ ${a.label}`), i.notes ?? ""].filter(Boolean).join("   "),
   }));
 
+  // Thumbnail: the newest approved or sent mockup that react-pdf can embed (PNG / JPG).
+  const { data: mockups } = await supabase
+    .from("mockups")
+    .select("file_path, status, version")
+    .eq("job_id", id)
+    .in("status", ["approved", "sent", "draft"])
+    .order("version", { ascending: false });
+  const embeddable = (mockups ?? []).find((m) => /\.(png|jpe?g)$/i.test(m.file_path));
+  let mockupUrl: string | null = null;
+  if (embeddable) {
+    const { data: signed } = await supabase.storage.from("mockups").createSignedUrl(embeddable.file_path, 300);
+    mockupUrl = signed?.signedUrl ?? null;
+  }
+
   const qr = await QRCode.toDataURL(jobUrl(id), { margin: 1, width: 300 });
-  const buffer = await renderToBuffer(<JobSheetPdf data={data} qr={qr} labels={labels} items={items} />);
+  const buffer = await renderToBuffer(
+    <JobSheetPdf data={data} qr={qr} labels={labels} items={items} mockupUrl={mockupUrl} />,
+  );
 
   return new Response(new Uint8Array(buffer), {
     headers: {

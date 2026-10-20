@@ -14,7 +14,7 @@ values ('00000000-0000-0000-0000-000000000001',
 insert into stages (shop_id, key, position, section, label_en, label_ms, customer_label_en, customer_label_ms, is_terminal) values
  ('00000000-0000-0000-0000-000000000001','QUOTATION_DRAFT',0,'sales','Quotation draft','Draf sebut harga','Quotation','Sebut harga',false),
  ('00000000-0000-0000-0000-000000000001','QUOTATION_SENT',1,'sales','Quotation sent','Sebut harga dihantar','Quotation','Sebut harga',false),
- ('00000000-0000-0000-0000-000000000001','CONFIRMED',2,'sales','Confirmed','Disahkan','Order confirmed','Tempahan disahkan',false),
+ ('00000000-0000-0000-0000-000000000001','CONFIRMED',2,'design','Confirmed','Disahkan','Order confirmed','Tempahan disahkan',false),
  ('00000000-0000-0000-0000-000000000001','DESIGNING',3,'design','Designing','Sedang reka','Design','Reka bentuk',false),
  ('00000000-0000-0000-0000-000000000001','MOCKUP_SENT',4,'design','Mockup sent','Mockup dihantar','Design','Reka bentuk',false),
  ('00000000-0000-0000-0000-000000000001','REVISION_REQUESTED',null,'design','Revision requested','Semakan diminta','Design','Reka bentuk',false),

@@ -3,7 +3,7 @@ import { primaryOption, transitionOptions, type FlowState } from "./options";
 
 const base: FlowState = {
   jobId: "j1", stageKey: "PRINTING", prevStageKey: null, designApproved: true, nameListConfirmed: true,
-  depositWaived: false, totalSen: 100000, paidSen: 50000, depositPercent: 50, creditTerms: false, qcShortfall: 0,
+  depositWaived: false, totalSen: 100000, paidSen: 50000, depositPercent: 50, creditTerms: false, mockupReady: true, qcShortfall: 0,
 };
 const s = (o: Partial<FlowState>): FlowState => ({ ...base, ...o });
 const to = (opts: ReturnType<typeof transitionOptions>, key: string) => opts.find((o) => o.to === key);
@@ -36,6 +36,39 @@ describe("transition options", () => {
     expect(to(noDesign, "TEMPLATE")).toMatchObject({ status: "blocked", code: "DESIGN_NOT_APPROVED" });
     const noList = transitionOptions(s({ stageKey: "NAME_LIST_CONFIRMED", nameListConfirmed: false }), "admin");
     expect(to(noList, "TEMPLATE")).toMatchObject({ status: "blocked", code: "NAME_LIST_NOT_CONFIRMED" });
+  });
+
+  it("sections hand work on themselves, with no admin in the middle", () => {
+    const next = (stageKey: string, role: Parameters<typeof transitionOptions>[1]) =>
+      primaryOption(transitionOptions(s({ stageKey }), role))?.to;
+    expect(next("CONFIRMED", "designer")).toBe("DESIGNING"); // designers start confirmed jobs
+    expect(next("DESIGNING", "designer")).toBe("MOCKUP_SENT");
+    expect(next("NAME_LIST_CONFIRMED", "template")).toBe("TEMPLATE");
+    expect(next("TEMPLATE", "template")).toBe("PRINTING"); // template sends to printing
+    expect(next("PRINTING", "printing")).toBe("HEAT_PRESS");
+    expect(next("HEAT_PRESS", "printing")).toBe("CUTTING"); // printing sends to production
+    expect(next("CUTTING", "cutting_sewing")).toBe("SEWING");
+    expect(next("SEWING", "cutting_sewing")).toBe("QC");
+    expect(next("QC", "qc")).toBe("PACKING");
+    expect(next("PACKING", "dispatch")).toBe("READY_FOR_COLLECTION");
+  });
+
+  it("the designer cannot send until a mockup is uploaded", () => {
+    const none = transitionOptions(s({ stageKey: "DESIGNING", mockupReady: false }), "designer");
+    expect(to(none, "MOCKUP_SENT")).toMatchObject({ status: "blocked", code: "MOCKUP_REQUIRED" });
+    const ready = transitionOptions(s({ stageKey: "DESIGNING", mockupReady: true }), "designer");
+    expect(to(ready, "MOCKUP_SENT")).toMatchObject({ status: "ok", side: false });
+  });
+
+  it("a designer never sees approve or revision buttons for their own mockup", () => {
+    const opts = transitionOptions(s({ stageKey: "MOCKUP_SENT" }), "designer");
+    expect(opts).toEqual([]);
+  });
+
+  it("a section cannot move another section's jobs", () => {
+    expect(transitionOptions(s({ stageKey: "PRINTING" }), "cutting_sewing")).toEqual([]);
+    expect(transitionOptions(s({ stageKey: "SEWING" }), "printing")).toEqual([]);
+    expect(transitionOptions(s({ stageKey: "TEMPLATE" }), "qc")).toEqual([]);
   });
 
   it("QC cannot pass while pieces are unresolved", () => {
