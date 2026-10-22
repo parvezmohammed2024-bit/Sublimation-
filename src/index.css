@@ -1,0 +1,212 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Sublimation look: the four process inks (Cyan, Magenta, Yellow, Key/black) on transfer paper.
+ * - header: key black with a printer's CMYK colour bar under it
+ * - heroes: dye clouds (blurred C/M/Y blobs) drifting on black, like ink gassing into polyester
+ * - cards: white transfer sheets with crop marks in the corners
+ * - one ink per stage: Artwork = cyan, Printing = magenta, Heat press & QC = heat orange,
+ *   Ready = green, Delivered = grey
+ */
+:root {
+  --bg: #f6f5fa;
+  --surface: #ffffff;
+  --surface-2: #f1eff7;
+  --ink: #14121c;
+  --muted: #5d596d;
+  --line: #e2dfeb;
+  --key: #121019;
+  --key-2: #1e1a2a;
+  --cyan: #0091cc;
+  --magenta: #d1006b;
+  --yellow: #f5b800;
+  --heat: #e2540f;
+  --ok: #0a8f5f;
+  --grey: #6b6880;
+  --danger: #c4162a;
+  --warn: #b45309;
+  --accent: var(--magenta);
+  --on-accent: #ffffff;
+  --crop: #b9b4c8;
+}
+.dark {
+  --bg: #0b0a10;
+  --surface: #16141f;
+  --surface-2: #1d1a29;
+  --ink: #f3f1f8;
+  --muted: #a8a3ba;
+  --line: #2b2839;
+  --key: #08070c;
+  --key-2: #141220;
+  --cyan: #3cc4ff;
+  --magenta: #ff4fa3;
+  --yellow: #ffd23f;
+  --heat: #ff7a36;
+  --ok: #34d399;
+  --grey: #9a96ad;
+  --danger: #ff7b86;
+  --warn: #f6b44a;
+  --accent: var(--magenta);
+  --on-accent: #ffffff;
+  --crop: #4a4560;
+}
+
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-key: var(--key);
+  --color-key-2: var(--key-2);
+  --color-cyan: var(--cyan);
+  --color-magenta: var(--magenta);
+  --color-yellow: var(--yellow);
+  --color-heat: var(--heat);
+  --color-ok: var(--ok);
+  --color-grey: var(--grey);
+  --color-danger: var(--danger);
+  --color-warn: var(--warn);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+}
+
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 16px; -webkit-tap-highlight-color: transparent; }
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
+.tabular { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* ---------- Printer's colour bar: C M Y K patches with a tint ramp ---------- */
+.cmyk-bar {
+  height: 8px;
+  background-image:
+    linear-gradient(90deg,
+      #00a8e8 0 12.5%, #ff1f8e 12.5% 25%, #ffd000 25% 37.5%, #121019 37.5% 50%,
+      #7fd3f3 50% 56.25%, #ff8fc6 56.25% 62.5%, #ffe780 62.5% 68.75%, #6b6880 68.75% 75%,
+      #00a8e8 75% 81.25%, #ff1f8e 81.25% 87.5%, #ffd000 87.5% 93.75%, #121019 93.75% 100%);
+  background-size: 128px 100%;
+  box-shadow: inset 0 -1px 0 rgb(255 255 255 / .12);
+}
+.dark .cmyk-bar { filter: saturate(1.1) brightness(1.05); }
+
+/* ---------- Dye clouds on black (heroes) ---------- */
+.dye {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--key);
+}
+.dye::before, .dye::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -40%;
+  filter: blur(42px);
+  opacity: .55;
+  mix-blend-mode: screen;
+}
+.dye::before {
+  background:
+    radial-gradient(28% 34% at 22% 30%, #00a8e8 0%, transparent 70%),
+    radial-gradient(26% 30% at 70% 22%, #ff1f8e 0%, transparent 70%);
+  animation: dye-drift 18s ease-in-out infinite alternate;
+}
+.dye::after {
+  background:
+    radial-gradient(24% 28% at 58% 72%, #ffd000 0%, transparent 70%),
+    radial-gradient(22% 26% at 30% 78%, #ff1f8e 0%, transparent 72%);
+  opacity: .42;
+  animation: dye-drift 22s ease-in-out -6s infinite alternate-reverse;
+}
+/* fine halftone dots over the clouds */
+.halftone {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(rgb(255 255 255 / .09) 1px, transparent 1.4px);
+  background-size: 9px 9px;
+}
+@keyframes dye-drift {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+  100% { transform: translate3d(6%, -4%, 0) rotate(8deg) scale(1.08); }
+}
+
+/* ---------- Transfer sheet with crop marks ---------- */
+.sheet {
+  position: relative;
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(var(--crop), var(--crop)), linear-gradient(var(--crop), var(--crop)),
+    linear-gradient(var(--crop), var(--crop)), linear-gradient(var(--crop), var(--crop)),
+    linear-gradient(var(--crop), var(--crop)), linear-gradient(var(--crop), var(--crop)),
+    linear-gradient(var(--crop), var(--crop)), linear-gradient(var(--crop), var(--crop));
+  background-repeat: no-repeat;
+  background-size:
+    14px 1.5px, 1.5px 14px, 14px 1.5px, 1.5px 14px,
+    14px 1.5px, 1.5px 14px, 14px 1.5px, 1.5px 14px;
+  background-position:
+    top 9px left 9px, top 9px left 9px, top 9px right 9px, top 9px right 9px,
+    bottom 9px left 9px, bottom 9px left 9px, bottom 9px right 9px, bottom 9px right 9px;
+}
+
+/* registration target used as a small brand detail */
+.reg-mark { width: 18px; height: 18px; border-radius: 999px; border: 1.5px solid currentColor; position: relative; }
+.reg-mark::before, .reg-mark::after { content: ""; position: absolute; background: currentColor; }
+.reg-mark::before { left: 50%; top: -5px; bottom: -5px; width: 1.5px; margin-left: -.75px; }
+.reg-mark::after { top: 50%; left: -5px; right: -5px; height: 1.5px; margin-top: -.75px; }
+
+/* ---------- Tracker: ink that flows through the steps ---------- */
+.ink-fill-x, .ink-fill-y { border-radius: 999px; }
+.ink-fill-x {
+  background: linear-gradient(90deg, var(--cyan), var(--magenta) 55%, var(--heat));
+  transform-origin: left center;
+  animation: ink-grow-x 1.2s cubic-bezier(.2,.8,.2,1) both;
+}
+.ink-fill-y {
+  background: linear-gradient(180deg, var(--cyan), var(--magenta) 55%, var(--heat));
+  transform-origin: center top;
+  animation: ink-grow-y 1.2s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes ink-grow-x { from { transform: scaleX(0); } }
+@keyframes ink-grow-y { from { transform: scaleY(0); } }
+
+/* current step: dye spreading out from the dot */
+.bleed { position: relative; }
+.bleed::after {
+  content: ""; position: absolute; inset: -6px; border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, currentColor 45%, transparent) 0%, transparent 70%);
+  animation: bleed 2.2s ease-out infinite; z-index: -1;
+}
+@keyframes bleed { 0% { transform: scale(.7); opacity: .9; } 100% { transform: scale(1.9); opacity: 0; } }
+
+/* heat shimmer for the Heat Press & QC queue header */
+.heat-wave {
+  background-image:
+    linear-gradient(115deg, transparent 0%, rgb(255 255 255 / .16) 45%, transparent 60%),
+    linear-gradient(135deg, var(--heat), #ff9d2e 55%, var(--yellow));
+  background-size: 220% 100%, 100% 100%;
+  animation: heat-shimmer 3.2s linear infinite;
+}
+@keyframes heat-shimmer { from { background-position: 120% 0, 0 0; } to { background-position: -120% 0, 0 0; } }
+.print-head {
+  background-image:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / .07) 0 2px, transparent 2px 6px),
+    linear-gradient(135deg, var(--magenta), #8f1fd1);
+}
+
+/* new job dropping into a queue */
+.arrive { animation: arrive .6s cubic-bezier(.2,.9,.25,1.12) both; }
+@keyframes arrive { from { opacity: 0; transform: translateY(-18px) scale(.97); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .dye::before, .dye::after, .heat-wave, .arrive { animation: none; }
+  .ink-fill-x, .ink-fill-y { animation: none; }
+  .bleed::after { display: none; }
+}
